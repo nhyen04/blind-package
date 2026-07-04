@@ -30,9 +30,10 @@ body {
     color: var(--dark-text);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* Mobile-first App Container */
@@ -40,10 +41,11 @@ body {
     position: relative;
     width: 100%;
     max-width: 400px;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     background: linear-gradient(180deg, #FFE4E1 0%, #FFF5F8 60%, #FFFCEB 100%);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,6 +54,7 @@ body {
     border-right: 6px solid var(--sakura-pink);
     box-shadow: 0 20px 50px rgba(255, 128, 171, 0.3);
     z-index: 1;
+    padding-bottom: 20px;
 }
 
 
