@@ -1,0 +1,881 @@
+/* ==========================================================================
+   STYLE.CSS - PHIÊN BẢN PHOTOCARD RARE GRADUATION INVITATION
+   ========================================================================== */
+
+:root {
+    --pearl-white: #FFFDF9;
+    --cream-bg: #FFFCEB;
+    --pastel-pink: #FFF0F5;
+    --sakura-pink: #FFD3E8;
+    --pink-border: #FFB7D5;
+    --pink-accent: #FF80AB;
+    --pink-dark: #FF4081;
+    --gold-accent: #ECC45C;
+    --gold-champagne: #F7E7C4;
+    --gold-glow: #FFD700;
+    --dark-text: #4A3B44;
+}
+
+/* Base Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #26212E; /* Tông nền huyền bí bao quanh */
+    font-family: 'DotGothic16', sans-serif;
+    color: var(--dark-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Mobile-first App Container */
+.app-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    height: 100dvh;
+    background: linear-gradient(180deg, #FFE4E1 0%, #FFF5F8 60%, #FFFCEB 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 6px solid var(--sakura-pink);
+    border-right: 6px solid var(--sakura-pink);
+    box-shadow: 0 20px 50px rgba(255, 128, 171, 0.3);
+    z-index: 1;
+}
+
+
+
+/* Canvas hạt nền & pháo hoa xé túi */
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Hiệu ứng lóa sáng trắng hồng khi xé túi thành công */
+.magical-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #FFF 0%, #FFF5F8 50%, rgba(255, 183, 213, 0) 100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 90;
+    transition: opacity 0.4s ease-out;
+}
+
+.flash-active {
+    opacity: 1;
+}
+
+/* Banner chúc mừng mở được Rare Card */
+.congrats-banner {
+    position: absolute;
+    top: 15%;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    text-align: center;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+    transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.show-congrats {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.congrats-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--pink-dark); /* Màu hồng đậm tương phản tốt với nền vàng */
+    text-shadow: 2px 2px 0px var(--pearl-white), 0 0 10px rgba(255, 64, 129, 0.4);
+    margin-bottom: 8px;
+    animation: flash 0.8s infinite alternate;
+}
+
+.congrats-subtitle {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--pink-accent);
+    text-shadow: 1px 1px 0px var(--pearl-white);
+}
+
+/* ==========================================================================
+   GIAI ĐOẠN 1 & 2: SECRET BLIND BAG
+   ========================================================================== */
+
+.bag-stage-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Hoạt ảnh nhịp thở và bập bềnh của túi mù tĩnh */
+@keyframes bagBreathing {
+    0% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 8px 15px rgba(255, 183, 213, 0.4)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.15));
+    }
+    50% {
+        transform: translateY(-8px) scale(1.03);
+        filter: drop-shadow(0 15px 25px rgba(255, 183, 213, 0.5)) drop-shadow(0 0 18px rgba(255, 215, 0, 0.4));
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 8px 15px rgba(255, 183, 213, 0.4)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.15));
+    }
+}
+
+.bag-container {
+    position: relative;
+    width: 310px;
+    height: 460px; /* Chiều cao tổng thể khớp kích thước card = 113.6px + 346.4px = 460px */
+    cursor: pointer;
+    animation: bagBreathing 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+/* Lớp quét ánh sáng phản chiếu gương trên mặt túi mù */
+.bag-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.35) 40%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0.35) 60%,
+        transparent 70%
+    );
+    background-size: 200% 100%;
+    background-position: -150% 0;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 18px;
+    animation: bagShineSweep 6s infinite ease-in-out;
+}
+
+@keyframes bagShineSweep {
+    0% { background-position: -150% 0; }
+    30% { background-position: 150% 0; }
+    100% { background-position: 150% 0; }
+}
+
+/* Ẩn bóng gương khi xé */
+.ripping .bag-shine, .torn .bag-shine {
+    display: none;
+}
+
+/* Dừng thở bập bềnh khi túi bắt đầu bị xé để các bước xé chính xác */
+.bag-container.ripping {
+    animation: none;
+    filter: drop-shadow(0 8px 15px rgba(255, 183, 213, 0.4));
+}
+
+.bag-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 310px;
+    height: 113.6px; /* Chiều cao khớp tỉ lệ viewBox 300x110 cho rộng 310px */
+    z-index: 5;
+    transform-origin: center bottom;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 0.5s;
+}
+
+/* Rãnh xé giấy ở giữa túi (Sẽ nứt và giãn rộng ra) */
+.bag-tear-gap {
+    position: absolute;
+    top: 113.6px;
+    left: 10.3px; /* Cách viền x=10 trong viewBox (310 * 10 / 300) */
+    width: 289.4px; /* Chiều rộng thân túi trong viewBox là 280 (310 * 280 / 300) */
+    height: 0px;
+    overflow: hidden;
+    z-index: 6;
+    opacity: 0;
+    transition: height 0.4s ease, opacity 0.3s ease, transform 0.4s ease;
+    background: transparent;
+    pointer-events: none;
+}
+
+.bag-bottom {
+    position: absolute;
+    top: 113.6px; /* Đặt ngay dưới phần đầu túi */
+    left: 0;
+    width: 310px;
+    height: 346.4px; /* Chiều cao khớp tỉ lệ viewBox 300x335 cho rộng 310px */
+    z-index: 4;
+    transform-origin: center top;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 0.5s;
+}
+
+/* Các lớp biểu thị trạng thái xé (Giai đoạn 2) */
+/* Lần 1: Rung lắc túi */
+@keyframes bagShake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    20% { transform: translate(-6px, 3px) rotate(-1.5deg); }
+    40% { transform: translate(5px, -3px) rotate(1.5deg); }
+    60% { transform: translate(-5px, -2px) rotate(-1deg); }
+    80% { transform: translate(5px, 2px) rotate(1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+.shake {
+    animation: bagShake 0.2s ease-in-out !important;
+}
+
+
+
+/* Lần 5: Xé hoàn toàn - Đầu bay lên, thân rớt xuống rồi biến mất */
+.torn .bag-top {
+    transform: translateY(-280px) rotate(-35deg) scale(0.7);
+    opacity: 0;
+    pointer-events: none;
+}
+.torn .bag-bottom {
+    transform: translateY(280px) rotate(25deg) scale(0.7);
+    opacity: 0;
+    pointer-events: none;
+}
+.torn .bag-tear-gap {
+    height: 80px;
+    opacity: 0;
+}
+
+/* Các nhãn chữ bên dưới túi mù */
+.bag-labels {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.bag-sub-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--gold-accent);
+    text-shadow: 1px 1px 0px var(--pearl-white);
+    letter-spacing: 0.5px;
+}
+
+.instruction-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--pink-accent);
+    text-shadow: 2px 2px 0px var(--pearl-white);
+    animation: pulse-sparkle 1.2s infinite;
+    margin-top: 4px;
+}
+
+
+/* ==========================================================================
+   PHASE 3 -> 9: RARE PHOTOCARD STAGE
+   ========================================================================== */
+
+.card-stage-wrapper {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px; /* Tăng độ sâu cho hiệu ứng nghiêng Tilt */
+}
+
+/* Thẻ bài collectible */
+.card {
+    width: 310px;
+    height: 460px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    
+    /* Trạng thái ban đầu trước khi Rare Reveal */
+    opacity: 0;
+    transform: scale(0.4) rotate(15deg) translateY(100px);
+    transition: 
+        transform 1.4s cubic-bezier(0.19, 1, 0.22, 1),
+        opacity 0.8s ease-out;
+}
+
+/* Class kích hoạt thẻ bay lên từ túi */
+.card-reveal {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0px);
+}
+
+/* Khung inner lật 3D */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    /* Dùng transition tùy biến mượt mà, riêng biệt cho lật tự động */
+    transition: transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1.1);
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+/* Thực hiện lật thẻ tự động */
+.card.flipped .card-inner {
+    transform: rotateY(180deg) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Ẩn mặt úp */
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+/* ---------------- MẶT TRƯỚC: RARE PHOTOCARD (Ảnh + Hologram) ---------------- */
+.card-front {
+    background-color: var(--pearl-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+/* Viền Trắng + Vàng đặc trưng của thẻ sưu tầm cao cấp */
+.photocard-border {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--pearl-white);
+    border: 8px solid var(--pearl-white); /* Bo viền trắng lớn */
+    box-shadow: 
+        0 0 0 4px var(--gold-accent), /* Viền vàng tiếp theo */
+        0 15px 35px rgba(74, 59, 68, 0.15),
+        inset 0 0 15px rgba(236, 196, 92, 0.2);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    overflow: hidden;
+}
+
+/* Container chứa ảnh tốt nghiệp */
+.photocard-image-container {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 35px);
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--pastel-pink);
+    border: 2px solid var(--gold-champagne);
+}
+
+.photocard-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- HIỆU ỨNG HOLOGRAM CẦU VỒNG & TIA SÁNG LIA NGANG --- */
+.hologram-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.4) 100%);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.rainbow-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Dải màu hologram phản chiếu */
+    background: linear-gradient(
+        115deg,
+        rgba(255, 0, 128, 0.15) 0%,
+        rgba(255, 154, 0, 0.1) 15%,
+        rgba(208, 222, 33, 0.1) 30%,
+        rgba(79, 220, 74, 0.1) 45%,
+        rgba(63, 218, 216, 0.12) 60%,
+        rgba(28, 127, 238, 0.1) 75%,
+        rgba(186, 12, 248, 0.15) 90%,
+        rgba(255, 0, 128, 0.15) 100%
+    );
+    background-size: 300% 300%;
+    background-position: calc(var(--mouse-x, 50) * 1%) calc(var(--mouse-y, 50) * 1%);
+    mix-blend-mode: color-dodge;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0.8;
+    /* Phản hồi cực kỳ mượt mà khi di chuyển */
+    transition: background-position 0.2s ease-out;
+}
+
+/* Vệt sáng quét chéo chạy tuần hoàn tạo ánh kim */
+.shine-sweep {
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 200%; height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.6) 45%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.6) 55%,
+        transparent 65%
+    );
+    z-index: 7;
+    pointer-events: none;
+    animation: shineSweep 3.2s ease-in-out infinite;
+}
+
+@keyframes shineSweep {
+    0% { transform: translate(-30%, -30%) rotate(0deg); }
+    100% { transform: translate(30%, 30%) rotate(0deg); }
+}
+
+/* Các hạt lấp lánh ở 4 góc */
+.border-sparkles {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 8;
+}
+
+.star-sp {
+    position: absolute;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--gold-glow);
+    text-shadow: 0 0 5px #FFF;
+    animation: flash 0.6s infinite alternate;
+}
+
+/* Footer thẻ hiếm */
+.photocard-footer {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rarity-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--gold-accent);
+    letter-spacing: 0.5px;
+    background-color: var(--pastel-pink);
+    padding: 4px 10px;
+    border: 2px solid var(--pink-border);
+    border-radius: 6px;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+/* ---------------- MẶT SAU: THIỆP MỜI CAO CẤP (Invitation) ---------------- */
+.card-back {
+    background-color: var(--pastel-pink);
+    transform: rotateY(180deg); /* Mặt sau mặc định bị xoay đi */
+}
+
+/* Viền ren ngọc trai của thiệp mời cao cấp */
+.pixel-border-back {
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    background-color: var(--pearl-white);
+    
+    /* Ép chìm vân giấy cao cấp (Emboss texture) */
+    background-image: 
+        linear-gradient(45deg, rgba(74, 59, 68, 0.015) 25%, transparent 25%, transparent 75%, rgba(74, 59, 68, 0.015) 75%),
+        linear-gradient(45deg, rgba(74, 59, 68, 0.015) 25%, transparent 25%, transparent 75%, rgba(74, 59, 68, 0.015) 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 4px 4px;
+
+    /* Viền Ren (Lace border) họa tiết pixel hồng mềm */
+    border: 6px double var(--pink-border);
+    border-radius: 18px;
+    
+    /* Viền trang trí trong màu Champagne Gold */
+    outline: 2px dashed var(--gold-accent);
+    outline-offset: -8px;
+    
+    box-shadow: 
+        inset 0 0 12px rgba(255, 183, 213, 0.15),
+        0 10px 30px rgba(74, 59, 68, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 14px 10px;
+    overflow: hidden;
+}
+
+/* Đính ngọc trai góc (Pearl decoration) */
+.pixel-border-back::before {
+    content: '⚪';
+    position: absolute;
+    top: 14px; left: 14px;
+    font-size: 8px;
+    color: var(--gold-champagne);
+    text-shadow: 1px 1px 0px var(--pink-border);
+}
+
+.pixel-border-back::after {
+    content: '⚪';
+    position: absolute;
+    top: 14px; right: 14px;
+    font-size: 8px;
+    color: var(--gold-champagne);
+    text-shadow: 1px 1px 0px var(--pink-border);
+}
+
+/* Header thiệp mời */
+.invitation-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    margin-top: 8px;
+}
+
+.invitation-header h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--pink-accent);
+    text-shadow: 1px 1px 0px var(--pastel-pink);
+    letter-spacing: -0.5px;
+}
+
+.header-sparkle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--gold-glow);
+    animation: flash 0.5s infinite alternate;
+}
+
+/* Khung tranh minh họa Hero Pixel Art */
+.hero-pixel-box {
+    width: 100%;
+    height: 105px;
+    border: 3px solid var(--gold-accent);
+    box-shadow: 2px 2px 0px var(--gold-accent);
+    background-color: #151324;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+/* Lời nhắn trắng trên nền đen */
+.hero-text {
+    color: #FFFDF9;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* Nội dung thông tin */
+.invitation-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: space-evenly;
+}
+
+.detail-row {
+    background-color: var(--pastel-pink);
+    border: 2px solid var(--pink-border);
+    box-shadow: 2px 2px 0px var(--pink-border);
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.header-row {
+    background-color: var(--pearl-white);
+    border: 2px solid var(--gold-accent);
+    box-shadow: 2px 2px 0px var(--gold-accent);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--pink-accent);
+    text-align: center;
+    padding: 6px 2px;
+    display: block;
+}
+
+.row-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--pink-dark);
+}
+
+.row-value {
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--dark-text);
+    line-height: 1.25;
+}
+
+.font-highlight {
+    font-size: 12px;
+    color: var(--pink-dark);
+}
+
+.font-wrap {
+    font-size: 11px;
+}
+
+/* Thẻ bài bập bềnh nhẹ ở trạng thái lật xong */
+.card-floating {
+    animation: cardFloat 5s ease-in-out infinite;
+}
+
+
+/* ==========================================================================
+   NÚT ÂM THANH & CÁC HOẠT ẢNH HỖ TRỢ
+   ========================================================================== */
+
+.music-toggle {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background-color: var(--pastel-pink);
+    border: 3px solid var(--pink-border);
+    box-shadow: 3px 3px 0px var(--pink-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+    z-index: 100;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.music-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--pink-border);
+}
+
+/* Keyframe animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes cardFloat {
+    0% { transform: translateY(0px) rotate(0.2deg); }
+    50% { transform: translateY(-6px) rotate(-0.2deg); }
+    100% { transform: translateY(0px) rotate(0.2deg); }
+}
+
+@keyframes flash {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+@keyframes pulse-sparkle {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.04);
+        color: var(--gold-accent);
+    }
+}
+
+/* ================= CARD COLLECTION CHECKLIST IN STAGE 1 ================= */
+.card-pool-container {
+    margin-top: 25px;
+    width: 310px;
+    text-align: center;
+    background: rgba(255, 253, 249, 0.8);
+    border: 3px solid var(--pink-border);
+    border-radius: 16px;
+    padding: 12px 10px;
+    box-shadow: 0 4px 10px rgba(255, 183, 213, 0.2);
+    z-index: 8;
+    box-sizing: border-box;
+}
+
+.pool-title {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 8px;
+    color: #FF5C8A;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    animation: flash 2s infinite ease-in-out alternate;
+}
+
+/* Hàng 4 card normal */
+.pool-grid {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Hàng card secret ở dưới */
+.pool-grid-secret {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.pool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65px;
+}
+
+.pool-card-border {
+    position: relative;
+    width: 64px;
+    height: 94px;
+    border-radius: 8px;
+    padding: 3px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.pool-card-border.normal-border {
+    background: #FFFDF9;
+    border: 2px solid #FF80AB;
+    box-shadow: 0 2px 4px rgba(255, 128, 171, 0.2);
+}
+
+.pool-card-border.secret-border {
+    background: #FFFDF9;
+    border: 2px solid #FFD54F; /* Vàng gold nhạt */
+    box-shadow: 0 0 6px rgba(255, 213, 79, 0.4);
+}
+
+.pool-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+}
+
+/* Lớp làm mờ dành cho Secret Card */
+.pool-card-border.blurred .pool-card-image {
+    filter: blur(5px) grayscale(90%) brightness(0.4);
+}
+
+.secret-question-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 22px;
+    color: #FFD54F;
+    font-weight: bold;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), 0 0 8px rgba(255, 213, 79, 0.6);
+    pointer-events: none;
+    z-index: 2;
+    animation: pulse-sparkle 2s infinite;
+}
+
+.pool-badge {
+    margin-top: 6px;
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 4px;
+    padding: 1px 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pool-badge.normal-badge {
+    background-color: #FFE4EC;
+    color: #FF4081;
+}
+
+.pool-badge.secret-badge {
+    background-color: #FFF9C4;
+    color: #F57F17;
+    animation: pulse-sparkle 2s infinite;
+}
+
+/* ================= ĐỊNH DẠNG BANNER CHÚC MỪNG & BADGE THEO ĐỘ HIẾM ================= */
+.congrats-banner.secret-banner {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 128, 171, 0.95) 100%);
+    border-top: 4px solid #FFE082;
+    border-bottom: 4px solid #FFE082;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 10px rgba(255,255,255,0.5);
+}
+
+.congrats-banner.normal-banner {
+    background: linear-gradient(135deg, rgba(255, 228, 236, 0.95) 0%, rgba(255, 182, 193, 0.95) 100%);
+    border-top: 4px solid #FF80AB;
+    border-bottom: 4px solid #FF80AB;
+    box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+}
+
+.rarity-badge.rarity-secret {
+    background: linear-gradient(135deg, #FFE082 0%, #FFB300 50%, #FFA000 100%);
+    color: #4E342E;
+    box-shadow: 0 0 10px rgba(255, 179, 0, 0.6), inset 0 1px 2px rgba(255,255,255,0.4);
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    border: 1px solid #FFE082;
+}
+
+.rarity-badge.rarity-normal {
+    background: linear-gradient(135deg, #FFECEF 0%, #FFCCD5 100%);
+    color: #C2185B;
+    box-shadow: 0 2px 5px rgba(194, 24, 91, 0.1);
+    border: 1px solid #FFCCD5;
+}
+
+.color-black {
+    color: #000 !important;
+}
